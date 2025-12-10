@@ -1,0 +1,10 @@
+node_modules
+.next
+music_cache
+worker_build
+users.json
+npm-debug.log
+.DS_Store
+.git
+.gitignore
+*.mp4

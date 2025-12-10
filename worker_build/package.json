@@ -1,0 +1,22 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "main": "worker.js",
+  "bin": "worker.js",
+  "pkg": {
+    "scripts": [],
+    "assets": [
+      "node_modules/sharp/**/*",
+      "node_modules/ffmpeg-static/**/*",
+      "node_modules/axios/**/*"
+    ]
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "sharp": "^0.32.6",
+    "fs-extra": "latest",
+    "fluent-ffmpeg": "latest",
+    "ffmpeg-static": "latest",
+    "crypto": "latest"
+  }
+}
