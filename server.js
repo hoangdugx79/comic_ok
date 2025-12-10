@@ -56,13 +56,14 @@ const WORKER_PACKAGE_CONTENT = {
     scripts: [],
     assets: [
       "node_modules/sharp/**/*",
+      "node_modules/@img/**/*",
       "node_modules/ffmpeg-static/**/*",
       "node_modules/axios/**/*"
     ]
   },
   dependencies: {
     axios: "^0.27.2",       // Bản cũ ổn định với PKG
-    sharp: "^0.32.6",       // Bản cũ ổn định với Node 16 PKG
+    sharp: "0.32.6",       // Bản cũ ổn định với Node 16 PKG
     'fs-extra': 'latest',
     'fluent-ffmpeg': 'latest',
     'ffmpeg-static': 'latest',

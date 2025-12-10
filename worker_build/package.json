@@ -7,13 +7,14 @@
     "scripts": [],
     "assets": [
       "node_modules/sharp/**/*",
+      "node_modules/@img/**/*",
       "node_modules/ffmpeg-static/**/*",
       "node_modules/axios/**/*"
     ]
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "sharp": "^0.32.6",
+    "sharp": "0.32.6",
     "fs-extra": "latest",
     "fluent-ffmpeg": "latest",
     "ffmpeg-static": "latest",
