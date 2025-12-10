@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: comic_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://anclick.id.vn}
+        PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-https://anclick.id.vn}
+    env_file:
+      - .env
+    environment:
+      - PUBLIC_BASE_URL=${PUBLIC_BASE_URL:-https://anclick.id.vn}
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./users.json:/app/users.json
+      - ./music_cache:/app/music_cache
+      - ./worker_build:/app/worker_build
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: comic_nginx
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/anclick.conf:ro
+      - ./deploy/certbot:/var/www/certbot
+      - nginx_cache:/var/cache/nginx
+    restart: unless-stopped
+
+volumes:
+  nginx_cache:

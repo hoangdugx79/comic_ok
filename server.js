@@ -96,8 +96,37 @@ const path = require('path');
 const fs = require('fs-extra');
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegStatic = require('ffmpeg-static');
-const sharp = require('sharp');
 const crypto = require('crypto');
+
+const ensureSharpRuntime = () => {
+    if (!process.pkg) return;
+    const execDir = path.dirname(process.execPath);
+    const snapshotVendor = path.join(__dirname, 'node_modules', 'sharp', 'vendor');
+    const runtimeVendor = path.join(execDir, 'sharp-vendor');
+    try {
+        if (!fs.existsSync(runtimeVendor)) {
+            fs.copySync(snapshotVendor, runtimeVendor);
+        }
+    } catch (err) {
+        console.error("Failed to copy sharp vendor files:", err);
+    }
+    const binaryName = \`sharp-\${process.platform}-\${process.arch}.node\`;
+    const snapshotBinary = path.join(__dirname, 'node_modules', 'sharp', 'build', 'Release', binaryName);
+    const runtimeBinary = path.join(execDir, binaryName);
+    try {
+        if (!fs.existsSync(runtimeBinary)) {
+            fs.copyFileSync(snapshotBinary, runtimeBinary);
+        }
+    } catch (err) {
+        console.error("Failed to extract sharp binary:", err);
+    }
+    process.env.SHARP_IGNORE_GLOBAL_LIBVIPS = '1';
+    process.env.SHARP_DIST_BASE_URL = runtimeVendor.replace(/\\\\/g, '/');
+    process.env.SHARP_LIBRARY_FILE = runtimeBinary.replace(/\\\\/g, '/');
+};
+
+ensureSharpRuntime();
+const sharp = require('sharp');
 
 // Kết nối Server
 // Logic thông minh: Nếu vẫn là placeholder thì tự động dùng localhost
